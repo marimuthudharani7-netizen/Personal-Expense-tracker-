@@ -1,0 +1,33 @@
+DISCRIPTION:
+A personal expense tracker helps record daily spending, categorize expenses, and monitor balance in real time. It ensures better money management and budgeting.
+CODING:
+#include <LiquidCrystal.h>
+#include <EEPROM.h>
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+int totalExpense = 0;
+int addr = 0;
+
+void setup() {
+  lcd.begin(16, 2);
+  totalExpense = EEPROM.read(addr);
+  lcd.print("Expense Tracker");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+  int expense = 50; // Example expense
+  totalExpense += expense;
+  EEPROM.write(addr, totalExpense);
+  
+  lcd.setCursor(0, 0);
+  lcd.print("Added: ");
+  lcd.print(expense);
+  
+  lcd.setCursor(0, 1);
+  lcd.print("Total: ");
+  lcd.print(totalExpense);
+  
+  delay(5000); // Update every 5 sec
+}
